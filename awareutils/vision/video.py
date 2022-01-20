@@ -301,13 +301,13 @@ class ThreadedOpenCVLiveVideoCapture(ModularThreadedVideoCapture):
                 )
                 if v != intended:
                     raise RuntimeError(f"Couldn't set camera {name} to {intended}")
-
+        self._vi = vi
         # Do this in here - opencv won't let us access this outside the thread, so we can't do `self._vi.get(...)` in
         # the main loop, and hence we set it here for our main props to read.
         self._width = int(self._vi.get(cv2.CAP_PROP_FRAME_WIDTH))
         self._height = int(self._vi.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-        self._vi = vi
+        
 
     def _get_height(self) -> int:
         assert self._height is not None, "height prop should block until first frame, where self._height is set"
